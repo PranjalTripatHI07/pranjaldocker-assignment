@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pranjal Docker Tutorial</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap"
+      rel="stylesheet" />
+    <style>
+      :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f3f3f3;
+        --text-primary: #1a1a1a;
+        --text-secondary: #4a4a4a;
+        --accent: #2a2a2a;
+        --border: #e0e0e0;
+        --code-bg: #f8f8f8;
+        --code-text: #333;
+        --animation-duration: 0.3s;
+        --bubble-color: rgba(100, 100, 100, 0.1);
+      }
+
+      [data-theme="dark"] {
+        --bg-primary: #1a1a1a;
+        --bg-secondary: #2a2a2a;
+        --text-primary: #ffffff;
+        --text-secondary: #b3b3b3;
+        --accent: #ffffff;
+        --border: #333333;
+        --code-bg: #2d2d2d;
+        --code-text: #e0e0e0;
+        --bubble-color: rgba(255, 255, 255, 0.05);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      @keyframes bubble {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 0;
+        }
+        50% {
+          opacity: 0.5;
+        }
+        100% {
+          transform: translateY(-100vh) scale(2);
+          opacity: 0;
+        }
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        line-height: 1.6;
+        color: var(--text-primary);
+        background-color: var(--bg-primary);
+        transition: all var(--animation-duration) ease;
+        overflow-x: hidden;
+      }
+
+      .bubble-container {
+        position: fixed;
+        bottom: -100px;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .bubble {
+        position: absolute;
+        bottom: 0;
+        background: var(--bubble-color);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: bubble 15s infinite;
+      }
+
+      nav {
+        background-color: rgba(var(--bg-secondary), 0.8);
+        padding: 1rem;
+        border-bottom: 1px solid var(--border);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(8px);
+      }
+
+      .nav-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .nav-content h1 {
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      .theme-toggle {
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all var(--animation-duration);
+        border: 2px solid transparent;
+      }
+
+      .theme-toggle:hover {
+        animation: pulse 1s infinite;
+        background-color: var(--border);
+      }
+
+      main {
+        margin-top: 80px;
+        min-height: calc(100vh - 140px);
+        position: relative;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 4rem 0;
+        animation: fadeIn 1s ease-out;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+        background: linear-gradient(
+          45deg,
+          var(--text-primary),
+          var(--text-secondary)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hero p {
+        font-size: 1.5rem;
+        color: var(--text-secondary);
+      }
+
+      .docker-logo {
+        width: 150px;
+        margin: 2rem auto;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .docker-logo img {
+        width: 100%;
+        height: auto;
+        filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.2));
+      }
+
+      .topics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .topic-card {
+        background-color: var(--bg-secondary);
+        border-radius: 12px;
+        padding: 2rem;
+        transition: all var(--animation-duration);
+        cursor: pointer;
+        border: 1px solid var(--border);
+        animation: fadeIn 0.5s ease-out backwards;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .topic-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          var(--bubble-color) 0%,
+          transparent 70%
+        );
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+      }
+
+      .topic-card:hover::before {
+        opacity: 1;
+        animation: rotate 10s linear infinite;
+      }
+
+      .topic-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        border-color: var(--text-secondary);
+      }
+
+      .topic-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .topic-card p {
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+      }
+
+      .topic-icon {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 1rem;
+        animation: float 5s ease-in-out infinite;
+      }
+
+      .code-snippet {
+        background-color: var(--code-bg);
+        padding: 1rem;
+        border-radius: 6px;
+        font-family: "Fira Code", monospace;
+        font-size: 0.9rem;
+        color: var(--code-text);
+        overflow-x: auto;
+        margin-top: 1rem;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all var(--animation-duration);
+      }
+
+      .topic-card:hover .code-snippet {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      footer {
+        text-align: center;
+        padding: 2rem;
+        background-color: var(--bg-secondary);
+        color: var(--text-secondary);
+        border-top: 1px solid var(--border);
+        position: relative;
+        overflow: hidden;
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero p {
+          font-size: 1.2rem;
+        }
+
+        .container {
+          padding: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bubble-container">
+      <!-- Bubbles will be added by JavaScript -->
+    </div>
+
+    <nav>
+      <div class="nav-content">
+        <h1>Pranjal Docker Guide</h1>
+        <div class="theme-toggle" id="themeToggle">
+          <span class="toggle-icon">◐</span>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="container">
+        <section class="hero">
+          <h1>Master Docker In One Day</h1>
+          <div class="docker-logo">
+            <img
+              src="https://www.docker.com/wp-content/uploads/2022/03/vertical-logo-monochromatic.png"
+              alt="Docker Logo" />
+          </div>
+          <p>A comprehensive guide to containerization</p>
+        </section>
+
+        <section class="topics" id="topics">
+          <!-- Topics will be populated by JavaScript -->
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <p>Created By ©️Pranjal for Docker Lovers 🌟</p>
+    </footer>
+
+    <script>
+      const topics = [
+        {
+          title: "Getting Started",
+          description:
+            "Learn the basics of Docker, including installation and core concepts.",
+          icon: "🚀",
+          snippet: `# Pull your first Docker image
+docker pull hello-world
+
+# Run your first container
+docker run hello-world`,
+        },
+        {
+          title: "Docker Images",
+          description:
+            "Understanding Docker images, Dockerfiles, and best practices for building them.",
+          icon: "📦",
+          snippet: `# Build an image from Dockerfile
+FROM node:16-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+CMD ["npm", "start"]`,
+        },
+        {
+          title: "Docker Containers",
+          description:
+            "Working with containers, managing lifecycle, and runtime configuration.",
+          icon: "🐳",
+          snippet: `# Run a container with port mapping
+docker run -d -p 3000:3000 my-app
+
+# View running containers
+docker ps`,
+        },
+        {
+          title: "Docker Compose",
+          description:
+            "Orchestrating multi-container applications with Docker Compose.",
+          icon: "🔄",
+          snippet: `version: '3.8'
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example`,
+        },
+        {
+          title: "Networking",
+          description:
+            "Docker networking concepts, types, and container communication.",
+          icon: "🌐",
+          snippet: `# Create a network
+docker network create my-net
+
+# Connect container to network
+docker run --network my-net nginx`,
+        },
+        {
+          title: "Volume Management",
+          description:
+            "Managing persistent data with Docker volumes and bind mounts.",
+          icon: "💾",
+          snippet: `# Create a volume
+docker volume create my-data
+
+# Mount volume to container
+docker run -v my-data:/data nginx`,
+        },
+      ];
+
+      function createBubbles() {
+        const bubbleContainer = document.querySelector(".bubble-container");
+        const bubbleCount = 20;
+
+        for (let i = 0; i < bubbleCount; i++) {
+          const bubble = document.createElement("div");
+          bubble.className = "bubble";
+
+          const size = Math.random() * 40 + 20;
+          bubble.style.width = `${size}px`;
+          bubble.style.height = `${size}px`;
+          bubble.style.left = `${Math.random() * 100}%`;
+          bubble.style.animationDelay = `${Math.random() * 15}s`;
+
+          bubbleContainer.appendChild(bubble);
+        }
+      }
+
+      function createTopicCards() {
+        const topicsContainer = document.getElementById("topics");
+        topics.forEach((topic, index) => {
+          const card = document.createElement("div");
+          card.className = "topic-card";
+          card.style.animationDelay = `${index * 0.1}s`;
+
+          card.innerHTML = `
+                    <div class="topic-icon">${topic.icon}</div>
+                    <h3>${topic.title}</h3>
+                    <p>${topic.description}</p>
+                    <pre class="code-snippet"><code>${topic.snippet}</code></pre>
+                `;
+
+          topicsContainer.appendChild(card);
+        });
+      }
+
+      function initThemeToggle() {
+        const themeToggle = document.getElementById("themeToggle");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+
+        if (prefersDark) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+
+        themeToggle.addEventListener("click", () => {
+          const currentTheme =
+            document.documentElement.getAttribute("data-theme");
+          const newTheme = currentTheme === "dark" ? "light" : "dark";
+          document.documentElement.setAttribute("data-theme", newTheme);
+
+          themeToggle.style.animation = "none";
+          themeToggle.offsetHeight;
+          themeToggle.style.animation = "pulse 0.5s";
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        createBubbles();
+        createTopicCards();
+        initThemeToggle();
+      });
+    </script>
+  </body>
+</html>
