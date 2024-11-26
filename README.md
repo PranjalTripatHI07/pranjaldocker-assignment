@@ -14,7 +14,7 @@ In this project, I will be demonstrating how to create a simple application, con
 The objectives of this assignment are:
 
 - To demonstrate proficiency in Docker, including creating Docker images, managing containers, and understanding container lifecycle.
-- To learn and implement Docker Compose to orchestrate multiple containers.
+
 - To showcase the efficiency and portability of Docker containers in a real-world application deployment.
 
 
