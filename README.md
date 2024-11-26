@@ -25,15 +25,20 @@ Here are some helpful images of my Docker Tutorial website which illustrating do
 ### Docker Tutorial website Video Output:
 ![Docker Diagram](https://github.com/user-attachments/assets/4dca248d-b104-4b1f-882f-2cf1cc265b4c)
 
-### Sample Docker Workflow:
+### Sample Docker Tutorial Website:
 ![Docker Workflow](https://github.com/user-attachments/assets/29eba0bc-581a-4a63-84af-0240da6b969a)
 
-### Running Docker Containers:
+### Sample Docker Tutorial Website:
 ![Running Containers](https://github.com/user-attachments/assets/9ced6be7-85e9-42cf-9a03-6774c5481454)
+
+
+  ### ThankYou!
 
 ---
 
-                                     ### ThankYou!
+               
+                                   
+  
 
 
 
