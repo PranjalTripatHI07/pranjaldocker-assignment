@@ -20,7 +20,7 @@ The objectives of this assignment are:
 
 ## Images of Index.html
 
-Here are some helpful images illustrating Docker Tutorial website and docker concepts:
+Here are some helpful images of my Docker Tutorial website which illustrating docker concepts:
 
 ### Docker Tutorial website Video Output:
 ![Docker Diagram](https://github.com/user-attachments/assets/4dca248d-b104-4b1f-882f-2cf1cc265b4c)
@@ -33,7 +33,7 @@ Here are some helpful images illustrating Docker Tutorial website and docker con
 
 ---
 
-                                                     ## ThankYou!
+                                     ### ThankYou!
 
 
 
